@@ -1,6 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
   const squares = document.querySelectorAll("#board div");
   const status = document.getElementById("status");
+  const newGameButton = document.querySelector(".btn");
+
+  const originalStatus = status.textContent;
 
   let currentPlayer = "X";
   let gameOver = false;
@@ -18,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     [2, 4, 6]
   ];
 
+  // Exercise 4: check whether a player has won
   function checkWinner(player) {
     return winningCombinations.some((combination) => {
       const [a, b, c] = combination;
@@ -30,11 +34,26 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Exercise 5: reset the game
+  function resetGame() {
+    currentPlayer = "X";
+    gameOver = false;
+    boardState.fill("");
+
+    squares.forEach((square) => {
+      square.textContent = "";
+      square.classList.remove("X", "O", "hover");
+    });
+
+    status.textContent = originalStatus;
+    status.classList.remove("you-won");
+  }
+
   squares.forEach((square, index) => {
-    // Exercise 1
+    // Exercise 1: style each board square
     square.classList.add("square");
 
-    // Exercises 2 and 4
+    // Exercise 2: place an X or O
     square.addEventListener("click", () => {
       // Ignore occupied squares and clicks after a win.
       if (gameOver || boardState[index] !== "") {
@@ -45,6 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
       square.textContent = currentPlayer;
       square.classList.add(currentPlayer);
 
+      // Exercise 4: announce the winner
       if (checkWinner(currentPlayer)) {
         status.textContent =
           `Congratulations! ${currentPlayer} is the Winner!`;
@@ -52,12 +72,11 @@ document.addEventListener("DOMContentLoaded", () => {
         status.classList.add("you-won");
         gameOver = true;
       } else {
-        // Switch only when the game has not been won.
         currentPlayer = currentPlayer === "X" ? "O" : "X";
       }
     });
 
-    // Exercise 3
+    // Exercise 3: add hover styling
     square.addEventListener("mouseenter", () => {
       square.classList.add("hover");
     });
@@ -66,4 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
       square.classList.remove("hover");
     });
   });
+
+  // Exercise 5: respond to the New Game button
+  newGameButton.addEventListener("click", resetGame);
 });
