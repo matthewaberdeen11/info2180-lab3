@@ -22,9 +22,16 @@ document.addEventListener("DOMContentLoaded", () => {
       // Switch to the other player.
       currentPlayer = currentPlayer === "X" ? "O" : "X";
     });
+    // Exercise 3: add hover styling
+    square.addEventListener("mouseenter", () => {
+        square.classList.add("hover");
+  });
+    square.addEventListener("mouseleave", () => {
+        square.classList.remove("hover");
+  });
   });
 });
 
 
 
-exercise 2
+
